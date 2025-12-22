@@ -21,7 +21,7 @@ Collezione di algoritmi di processing QGIS progettati per l'analisi dimensionale
 - [Utilizzo](#-utilizzo)
 - [Output](#-output)
 - [Metodologia](#-metodologia)
-- [Esempi](#-esempi)
+- [Esempio](#-esempio)
 - [Contributi](#-contributi)
 - [Crediti](#-crediti)
 - [Licenza](#-licenza)
@@ -352,12 +352,12 @@ Per ogni campione vengono calcolate:
 
 ---
 
-## 💡 Esempi
+## 💡 Esempio
 
 **Nota**: I dati di esempio per testare gli script si trovano nella cartella **Data/** del repository:
 - `TEST_Analisi_campioni.gpkg` - GeoPackage con layer di test già configurati
 
-### Esempio 1: Analisi muratura in opus latericium
+### Analisi muratura in opus latericium
 
 ```
 1. Carica il geopackage "TEST_Analisi_campioni.gpkg" dalla cartella Data/
@@ -371,28 +371,6 @@ Per ogni campione vengono calcolate:
 4. Esamina gli output
 5. Carica il layout "scheda_campione"
 6. Attiva modalità Atlas per report automatico
-```
-
-### Esempio 2: Analisi metrologica con piede romano
-
-```
-1. Prepara i layer con le geometrie
-2. Esegui "Analisi Quantitativa Componenti a Secco"
-   - Valore modulo: 0.296 m (piede romano)
-   - Altri parametri: default
-3. Analizza i campi "width_modulo" e "Δwidth_modulo"
-4. Verifica la coerenza dimensionale rispetto al modulo
-```
-
-### Esempio 3: Confronto tra diversi sistemi metrologici
-
-```
-# Analizza lo stesso dataset con diversi moduli
-- Esecuzione 1: modulo = 0.296 m (piede romano)
-- Esecuzione 2: modulo = 0.308 m (piede greco)
-- Esecuzione 3: modulo = 0.275 m (piede osco-italico)
-
-# Confronta i risultati per identificare il sistema più probabile
 ```
 
 ---
