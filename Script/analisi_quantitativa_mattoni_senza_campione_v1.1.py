@@ -157,9 +157,37 @@ class AnalisiSenzaCampione(QgsProcessingAlgorithm):
             for expr, name, field_type, length, precision in fields
         ]
 
-    def verifica_features(self, layer_id, context, feedback, layer_name: str):
+    def get_layer_from_source(self, source, context):
+        """
+        Ottiene un layer da varie sorgenti (stringa, QgsProcessingFeatureSourceDefinition, ecc.)
+        """
+        from qgis.core import QgsProcessingFeatureSourceDefinition, QgsVectorLayer
+        
+        # Se è già una stringa con ID layer
+        if isinstance(source, str):
+            return QgsProcessingUtils.mapLayerFromString(source, context)
+        
+        # Se è un QgsProcessingFeatureSourceDefinition
+        if isinstance(source, QgsProcessingFeatureSourceDefinition):
+            # Estrai la sorgente interna
+            internal_source = source.source
+            if hasattr(internal_source, 'staticValue'):
+                # È un QgsProperty, prendi il valore statico
+                layer_id = internal_source.staticValue()
+            else:
+                layer_id = str(internal_source)
+            return QgsProcessingUtils.mapLayerFromString(layer_id, context)
+        
+        # Per altri tipi, prova a convertire in stringa
+        try:
+            return QgsProcessingUtils.mapLayerFromString(str(source), context)
+        except:
+            return None
+    
+    def verifica_features(self, layer_source, context, feedback, layer_name: str):
         """Verifica il numero di features in un layer"""
-        layer = QgsProcessingUtils.mapLayerFromString(layer_id, context)
+        layer = self.get_layer_from_source(layer_source, context)
+        
         if layer:
             count = layer.featureCount()
             feedback.pushInfo(f"✓ {layer_name}: {count} features")
@@ -268,7 +296,7 @@ class AnalisiSenzaCampione(QgsProcessingAlgorithm):
         count_parziali = 0
         count_totale = 0
         
-        rilievo_layer = QgsProcessingUtils.mapLayerFromString(rilievo_input, context)
+        rilievo_layer = self.get_layer_from_source(rilievo_input, context)
         if rilievo_layer:
             count_totale = rilievo_layer.featureCount()
             
@@ -451,7 +479,7 @@ class AnalisiSenzaCampione(QgsProcessingAlgorithm):
             'OUTPUT': QgsProcessing.TEMPORARY_OUTPUT
         }, context=context, feedback=feedback, is_child_algorithm=True)
         
-        stats_layer = QgsProcessingUtils.mapLayerFromString(stats_with_bbox['OUTPUT'], context)
+        stats_layer = self.get_layer_from_source(stats_with_bbox['OUTPUT'], context)
         
         # Funzione per calcolare statistiche
         def calcola_statistiche(layer, field_name):
@@ -710,7 +738,7 @@ END'''
         
         feedback.pushInfo("\n[OUTPUT GENERATI]")
         for name in results.keys():
-            layer = QgsProcessingUtils.mapLayerFromString(results[name], context)
+            layer = self.get_layer_from_source(results[name], context)
             if layer:
                 feedback.pushInfo(f"  * {layer.name()}: {layer.featureCount()} features")
         
