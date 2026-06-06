@@ -248,10 +248,12 @@ class MasonryPatternAnalysis(QgsProcessingAlgorithm):
 
     @staticmethod
     def _cv(x):
-        """Coefficiente di variazione (sigma/mu). Ritorna NaN se mu~0."""
+        """Coefficiente di variazione campionario (sigma/mu, ddof=1).
+        Ritorna NaN se mu~0 o se i dati validi sono meno di 2 (la deviazione
+        standard campionaria non e' definita per n<2)."""
         x = np.asarray(x, dtype=float)
         x = x[~np.isnan(x)]
-        if x.size == 0:
+        if x.size < 2:
             return float('nan')
         mu = x.mean()
         if abs(mu) < 1e-12:
@@ -336,11 +338,16 @@ class MasonryPatternAnalysis(QgsProcessingAlgorithm):
         if mc_runs and mc_runs > 0 and n > 1:
             rng = np.random.default_rng(42)
             lo, hi = float(np.nanmin(vals)), float(np.nanmax(vals))
-            mc_step = max(q_step, (q_max - q_min) / 60.0)
+            # La distribuzione nulla DEVE essere costruita sulla stessa griglia
+            # di candidati (q_step) usata per il picco osservato: una griglia piu'
+            # rada darebbe massimi sistematicamente piu' bassi (meno candidati =
+            # meno occasioni di allineamento spurio), rendendo il test
+            # ANTICONSERVATIVO (sovrastima della significativita'). Si usa quindi
+            # q_step pieno anche nel Monte Carlo.
             peaks = np.empty(mc_runs)
             for r in range(mc_runs):
                 rv = rng.uniform(lo, hi, n)
-                _, pn = self._quantogram(rv, q_min, q_max, mc_step)
+                _, pn = self._quantogram(rv, q_min, q_max, q_step)
                 peaks[r] = np.nanmax(pn)
             s95 = float(np.percentile(peaks, 95))
             s99 = float(np.percentile(peaks, 99))
@@ -454,6 +461,10 @@ class MasonryPatternAnalysis(QgsProcessingAlgorithm):
         n_rad = np.zeros(n, dtype=int)
         dev_loc_knn = np.full(n, np.nan)
         disp_loc_knn = np.full(n, np.nan)
+        # liste di vicini k-nearest: calcolate UNA sola volta qui e riusate dal
+        # LISA, per evitare di ricalcolare la query (e il rischio che le due
+        # liste divergano).
+        neigh = [[] for _ in range(n)]
 
         k_query = min(knn + 1, n)  # +1 perche' il primo vicino e' il punto stesso
 
@@ -472,6 +483,7 @@ class MasonryPatternAnalysis(QgsProcessingAlgorithm):
             dists, idx_k = tree.query(XY[i], k=k_query)
             idx_k = np.atleast_1d(idx_k)
             idx_k = [j for j in idx_k if j != i][:knn]
+            neigh[i] = idx_k  # salvato per il LISA
             if idx_k:
                 lm, lR = self._axial_mean(ANG[idx_k])
                 dev_loc_knn[i] = self._axial_diff(ANG[i], lm)
@@ -566,9 +578,15 @@ class MasonryPatternAnalysis(QgsProcessingAlgorithm):
             self._cv(L), self._cv(T), self._cv(A), self._cv(R_fill)))
         for cl in sorted(np.unique(labels)):
             m = labels == cl
+            nm = int(m.sum())
+            if nm < 2:
+                feedback.pushInfo(
+                    "cluster %d (n=%d)  CV non definito (servono almeno 2 elementi)"
+                    % (cl, nm))
+                continue
             feedback.pushInfo(
                 "cluster %d (n=%d)  len=%.3f  thk=%.3f  area=%.3f  R_fill=%.3f" % (
-                    cl, int(m.sum()), self._cv(L[m]), self._cv(T[m]),
+                    cl, nm, self._cv(L[m]), self._cv(T[m]),
                     self._cv(A[m]), self._cv(R_fill[m])))
         feedback.pushInfo("Nota: CV basso = produzione/posa standardizzata; "
                           "CV alto = eterogeneita' (possibile reimpiego).")
@@ -577,13 +595,9 @@ class MasonryPatternAnalysis(QgsProcessingAlgorithm):
         feedback.pushInfo("--- LISA (Local Moran's I) sul reuse_score ---")
         zr = reuse_score - reuse_score.mean()
         s2 = (zr ** 2).mean()
-        # liste di vicini k-nearest (row-standardized) gia' coerenti con knn
-        neigh = []
-        for i in range(n):
-            _, idx_k = tree.query(XY[i], k=k_query)
-            idx_k = np.atleast_1d(idx_k)
-            idx_k = [j for j in idx_k if j != i][:knn]
-            neigh.append(idx_k)
+        # I vicini k-nearest sono gia' stati calcolati nel loop principale e
+        # salvati in 'neigh' (row-standardized): si riusano qui, evitando una
+        # seconda query e ogni rischio di divergenza tra le due liste.
 
         lisa_I = np.zeros(n)
         spatial_lag = np.zeros(n)
@@ -606,7 +620,16 @@ class MasonryPatternAnalysis(QgsProcessingAlgorithm):
                 if ki == 0:
                     continue
                 pool = np.delete(others, i)
-                sim = rng.choice(pool, size=(permutations, ki), replace=True)
+                # Permutazione condizionale "da manuale": si estraggono k_i valori
+                # SENZA rimpiazzo dai rimanenti (come PySAL), per non distorcere la
+                # distribuzione nulla. Con il rimpiazzo, su vicinati piccoli o
+                # paramenti poco popolati i p-value risulterebbero leggermente
+                # falsati. Se ki supera il pool disponibile (caso limite con n
+                # molto piccolo) si ripiega sul campionamento con rimpiazzo.
+                replace = ki > pool.size
+                sim = np.empty((permutations, ki))
+                for r in range(permutations):
+                    sim[r] = rng.choice(pool, size=ki, replace=replace)
                 sim_lag = sim.mean(axis=1)
                 sim_I = (zr[i] / s2) * sim_lag
                 # p pseudo a due code basata sul conteggio di |sim| >= |oss|
