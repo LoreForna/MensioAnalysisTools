@@ -146,8 +146,6 @@ MensioAnalysisTools (usa i campi `width_bbox`, `height_bbox`, `area_componente`,
 **File**: `statistiche_avanzate_pattern_paramento_reimpiego.py`  
 **Nome nel toolbox**: *Statistiche avanzate pattern paramento e reimpiego*
 
-> Per la documentazione metodologica completa (formule, esempi numerici,
-> interpretazione di ogni campo) vedi **`README_statistiche_avanzate.md`**.
 
 ### Due modalità d'uso
 
