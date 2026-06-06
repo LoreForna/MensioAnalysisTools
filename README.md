@@ -3,7 +3,7 @@
 [![QGIS](https://img.shields.io/badge/QGIS-%3E%3D3.16-green)](https://qgis.org)
 [![Python](https://img.shields.io/badge/Python-%3E%3D3.8-blue)](https://www.python.org/)
 [![License](https://img.shields.io/badge/License-GPL--3.0-orange)]
-[![Version](https://img.shields.io/badge/Version-1.1-brightgreen)](https://github.com/LoreForna/MensioAnalysisTools/releases)
+[![Version](https://img.shields.io/badge/Version-1.2-brightgreen)](https://github.com/LoreForna/MensioAnalysisTools/releases)
 
 **Suite di strumenti QGIS per l'analisi quantitativa di murature storiche**
 
@@ -16,6 +16,7 @@ Collezione di algoritmi di processing QGIS progettati per l'analisi dimensionale
 - [Caratteristiche](#-caratteristiche)
 - [Versioni Disponibili](#-versioni-disponibili)
 - [Suite di Strumenti](#-suite-di-strumenti)
+- [Statistiche Avanzate: Pattern e Reimpiego](#-statistiche-avanzate-pattern-e-reimpiego)
 - [Installazione](#-installazione)
 - [Requisiti](#-requisiti)
 - [Struttura Dati](#-struttura-dati)
@@ -36,11 +37,12 @@ Collezione di algoritmi di processing QGIS progettati per l'analisi dimensionale
 - **Sistema modulare configurabile** per analisi metrologiche basate su diverse unità di misura storiche
 - **Separazione intelligente** tra componenti interi e parziali per analisi accurate
 - **Calcolo del poligono minimo orientato** (Minimum Oriented Bounding Box) per ogni elemento
-- **Statistiche avanzate**: media, deviazione standard, range, distribuzioni
-- **Due modalità di analisi**: per campione (v1.0) o aggregate globali (v1.1)
+- **Statistiche descrittive**: media, deviazione standard, range, distribuzioni
+- **Statistiche avanzate** (v1.2): individuazione di pattern di posa e di elementi di **reimpiego** (spolia) tramite analisi multivariata e spaziale
+- **Due modalità di analisi**: per campione (v1.0) o aggregate globali (v1.2)
 - **Output multipli** organizzati: layer geometrici, tabelle statistiche, distribuzioni per range
 - **Validazione robusta** dei dati in input con messaggi di errore dettagliati
-- **Campo superficie opzionale** (v1.1): adattamento automatico se presente o assente
+- **Campo superficie opzionale** (v1.2): adattamento automatico se presente o assente
 
 ---
 
@@ -58,22 +60,30 @@ La suite è disponibile in due versioni principali:
 - `analisi_quantitativa_componenti_a_secco_v1_0.py`
 - `analisi_quantitativa_altri_componenti_v1_0.py`
 
-### Versione 1.1 - Senza Area Campione
+### Versione 1.2 - Senza Area Campione
 **Modalità**: Analisi aggregate globali  
 **Requisiti**: Solo layer rilievo  
 **Ideale per**: Analisi rapide per murature non campionate
 
 **File**:
 - `analisi_quantitativa_mattoni_senza_campione_v1_1.py`
-- `analisi_altri_componenti_senza_campione_v1_1.py`
-- `analisi_componenti_a_secco_senza_campione_v1_1.py`
+- `analisi_componenti_secco_altri_materiali_senza_campione_v1.1.py`
 
-**Vantaggi v1.1**:
+> **Novità v1.2 — Unificazione degli script.** I due script precedenti
+> `analisi_componenti_a_secco_senza_campione_v1_1.py` e
+> `analisi_altri_componenti_senza_campione_v1_1.py`, che avevano logica di
+> calcolo e output **identici**, sono stati fusi in un unico strumento:
+> **"Componenti a secco / altri materiali senza campione"**. Lo strumento per i
+> mattoni resta distinto.
+
+**Vantaggi v1.2**:
 - ✅ Workflow semplificato (11 step invece di 19)
 - ✅ Non richiede layer campioni
 - ✅ Campo `superficie` opzionale con comportamento adattivo
 - ✅ Più veloce da eseguire
 - ✅ Output ridotti (5 invece di 6)
+- ✅ Un solo strumento per componenti a secco e altri materiali (anziché due)
+- ✅ Nuovo modulo di **statistiche avanzate** per pattern e reimpiego (vedi sezione dedicata)
 
 ---
 
@@ -93,7 +103,7 @@ Analisi specializzata per murature in laterizi di età romana.
 - Stima del numero di mattoni interi per campione
 - Statistiche per ogni area campionata
 
-#### Versione 1.1 (Senza Campione)
+#### Versione 1.2 (Senza Campione)
 **File**: `analisi_quantitativa_mattoni_senza_campione_v1_1.py`
 
 **Caratteristiche**:
@@ -107,23 +117,31 @@ Analisi specializzata per murature in laterizi di età romana.
 
 ---
 
-### 2. Analisi Quantitativa Componenti a Secco
+### 2. Analisi Quantitativa Componenti a Secco / Altri Materiali
 
-Analisi per elementi strutturali assemblati senza legante.
+Analisi per componenti lapidei assemblati senza legante (blocchi, conci) e per
+componenti eterogenei o materiali speciali. Dalla **v1.2** i due strumenti
+separati ("Componenti a secco" e "Altri componenti") sono **unificati** in un
+unico algoritmo, poiché condividevano logica di calcolo e output identici.
 
 #### Versione 1.0 (Con Campione)
-**File**: `analisi_quantitativa_componenti_a_secco_v1_0.py`
+**File**:
+- `analisi_quantitativa_componenti_a_secco_v1_0.py`
+- `analisi_quantitativa_altri_componenti_v1_0.py`
 
 **Caratteristiche**:
 - Calcoli metrologici con modulo configurabile (default: piede romano 0.296m)
 - Campi modulo solo per superficie='intera'
 - Statistiche per campione
 - Range personalizzabili (default 1cm)
+- Supporto per tipologie multiple di materiali e filtri avanzati
 
-#### Versione 1.1 (Senza Campione)
-**File**: `analisi_componenti_a_secco_senza_campione_v1_1.py`
+#### Versione 1.2 (Senza Campione) — Unificata
+**File**: `analisi_componenti_secco_altri_materiali_senza_campione_v1.1.py`  
+**Nome nel toolbox**: *Componenti a secco / altri materiali senza campione*
 
 **Caratteristiche**:
+- Un **unico strumento** per componenti a secco e altri materiali
 - Campi modulo per **TUTTI i componenti** (non solo interi)
 - Campo `superficie` opzionale
 - Statistiche aggregate globali
@@ -133,37 +151,86 @@ Analisi per elementi strutturali assemblati senza legante.
 - `width_modulo`, `Δwidth_modulo`
 - `height_modulo`, `Δheight_modulo`
 
-**Ideale per**: Murature a secco
+**Ideale per**: Murature a secco; opera incerta, reticolata e mista; componenti
+lapidei e materiali eterogenei in genere
 
 ---
 
-### 3. Analisi Quantitativa Altri Componenti
+## 🔬 Statistiche Avanzate: Pattern e Reimpiego
 
-Analisi generica per componenti eterogenei o materiali speciali.
+Strumento di **analisi statistica avanzata** del paramento murario, finalizzato
+all'individuazione di **pattern di posa** e di elementi di probabile
+**reimpiego** (spolia). Si concatena all'output degli strumenti
+MensioAnalysisTools (usa i campi `width_bbox`, `height_bbox`, `area_componente`,
+`angle_bbox`, `fid`).
 
-#### Versione 1.0 (Con Campione)
-**File**: `analisi_quantitativa_altri_componenti_v1_0.py`
+**File**: `statistiche_avanzate_pattern_paramento_reimpiego.py`  
+**Nome nel toolbox**: *Statistiche avanzate pattern paramento e reimpiego*
 
-**Caratteristiche**:
-- Flessibilità massima nei parametri
-- Supporto per tipologie multiple di materiali
-- Calcoli metrologici per campione
-- Filtri avanzati per classificazione materiali
+> Per la documentazione metodologica completa (formule, esempi numerici,
+> interpretazione di ogni campo) vedi **`README_statistiche_avanzate.md`**.
 
-#### Versione 1.1 (Senza Campione)
-**File**: `analisi_altri_componenti_senza_campione_v1_1.py`
+### Due modalità d'uso
 
-**Caratteristiche**:
-- Campi modulo per **TUTTI i componenti**
-- Campo `superficie` opzionale
-- Statistiche aggregate globali
-- Workflow semplificato
+- **Mattoni** (laterizi di ritaglio): sola analisi del paramento. L'analisi
+  metrologica **non** va attivata (i ritagli non seguono un modulo teorico).
+- **Componenti a secco / altri materiali** (blocchi, conci): analisi del
+  paramento **più** analisi metrologica modulare opzionale.
 
-**Ideale per**: Murature in opera incerta, reticolata, e mista
+### Mapping dei campi in ingresso
+
+| Parametro | Campo MensioAnalysisTools | Significato |
+|---|---|---|
+| Campo lunghezza | `width_bbox` | lato maggiore del bounding box orientato |
+| Campo spessore | `height_bbox` | lato minore del bounding box |
+| Campo area | `area_componente` | area reale del poligono (non del bbox) |
+| Campo angolo | `angle_bbox` | orientamento di posa, assiale 0–180° |
+| Campo id | `fid` | identificativo univoco |
+
+### Cosa calcola
+
+**Analisi del paramento** (sempre):
+- **Fattore di riempimento** `R_fill` — quanto il pezzo riempie il proprio ingombro rettangolare
+- **Statistica circolare assiale** dell'orientamento (media e coerenza R̄, scarto vs vicini)
+- **Distanza di Mahalanobis** — outlier dimensionali multivariati
+- **PCA** (PC1, PC2) — riduzione delle variabili dimensionali
+- **Clustering gerarchico** (metodo di Ward) — gruppi di paramento
+- **Coefficiente di variazione** (CV) globale e per cluster
+- **`reuse_score`** — indicatore sintetico di reimpiego [0–1]
+- **LISA** (Local Moran's I) — autocorrelazione spaziale (hotspot HH/LL/HL/LH)
+
+**Analisi metrologica** (opzionale, solo altri materiali):
+- **Aderenza al modulo** e **test di Rayleigh**
+- **Cosine quantogram di Kendall** — ricerca del modulo ottimale
+- **Validazione Monte Carlo** del picco del quantogram
+- **Guardia di scala** — esclude dimensioni non informative
+
+### Parametri principali
+
+| Parametro | Default | Note |
+|---|---|---|
+| Raggio vicinato (raggio fisso) | 0 (auto) | 0 = 3 × lunghezza media |
+| Vicini k (k-nearest) | 8 | "corona" immediata di un pezzo |
+| Numero di cluster | 0 (auto) | taglio dendrogramma al 70% |
+| Permutazioni LISA | 999 | 0 = test disattivato |
+| Esegui analisi metrologica | disattivata | attivare solo per blocchi/conci |
+| Modulo da verificare | 0.297 m | piede romano |
+| Ricerca modulo (min/max/passo) | 0.18 / 0.60 / 0.002 m | componenti da ~10–60 cm |
+| Permutazioni Monte Carlo | 300 | 0 = validazione disattivata |
+
+### Output
+
+- **Paramento analizzato** — layer poligonale arricchito con tutti i campi diagnostici (`R_fill`, `mahal`, `PC1`, `PC2`, `dev_glob`, `dev_loc_rad`, `disp_loc_rad`, `n_rad`, `dev_loc_knn`, `disp_loc_knn`, `cluster`, `reuse_score`, `lisa_I`, `lisa_p`, `lisa_clust`; con metrologia attiva anche `w_phase`, `w_resid`, `h_phase`, `h_resid`)
+- **Quantogram in CSV** — prodotto solo con metrologia attiva (modulo, Φ_lunghezza, Φ_altezza)
+- **Log dei Processing** — varianza spiegata PCA, orientamento medio e R̄, CV globali e per cluster, n. hotspot HH, e (metrologia) R̄/Rayleigh, modulo ottimale e significatività Monte Carlo
+
+### Dipendenze aggiuntive
+
+Richiede `numpy`, `scipy`, `scikit-learn` (di norma già presenti nel Python di QGIS).
 
 ---
 
-## 📥 Installazione
+
 
 ### Metodo 1: Copia diretta (consigliato)
 
@@ -202,6 +269,7 @@ Necessario per la visualizzazione dei grafici (solo v1.0):
 - **QGIS**: versione ≥ 3.16 (LTR o superiore)
 - **Python**: versione ≥ 3.8
 - **Plugin**: DataPlotly (opzionale, solo per v1.0)
+- **Librerie Python**: `numpy`, `scipy`, `scikit-learn` (solo per le statistiche avanzate; di norma già incluse nel Python di QGIS)
 
 ### Dati
 - Sistema di riferimento **cartografico o locale** (NO geografico WGS84)
@@ -244,14 +312,14 @@ Poligoni dei singoli componenti murari
 
 ---
 
-### Versione 1.1 - Senza Campione
+### Versione 1.2 - Senza Campione
 
 Richiede **solo** un layer:
 
 #### Layer "rilievo"
 Poligoni dei singoli componenti murari
 
-| Campo | Tipo | Descrizione | Obbligatorio | Note v1.1 |
+| Campo | Tipo | Descrizione | Obbligatorio | Note v1.2 |
 |-------|------|-------------|--------------|-----------|
 | `fid` | Integer | ID univoco | ✗ | |
 | `tipo` | String | Tipologia materiale | ✗ | |
@@ -260,7 +328,7 @@ Poligoni dei singoli componenti murari
 | `num_componente` | Integer | Numero progressivo | ✗ | |
 | `usm` | String | Unità Stratigrafica Muraria | ✗ | 
 
-**⚠️ Comportamento campo `superficie` (v1.1)**:
+**⚠️ Comportamento campo `superficie` (v1.2)**:
 - **Se PRESENTE**: Statistiche calcolate solo su componenti "interi"
 - **Se ASSENTE o NULL**: Statistiche calcolate su **TUTTI** i componenti
 
@@ -276,7 +344,7 @@ Poligoni dei singoli componenti murari
 - ✓ Devi confrontare diverse zone della muratura
 - ✓ Segui metodologia con campionamento 1m²
 
-**Usa Versione 1.1** se:
+**Usa Versione 1.2** se:
 - ✓ Vuoi analisi rapide senza campionamento
 - ✓ Hai rilievo completo senza divisione in campioni
 - ✓ Hai bisogno solo di statistiche globali
@@ -307,7 +375,7 @@ Poligoni dei singoli componenti murari
 
 ---
 
-### Workflow Versione 1.1 (Senza Campione)
+### Workflow Versione 1.2 (Senza Campione)
 
 1. **Preparazione dati**
    - Crea **solo** layer "rilievo"
@@ -320,7 +388,7 @@ Poligoni dei singoli componenti murari
    - Seleziona lo strumento "senza campione" appropriato
    - Configura parametri
 
-3. **Parametri v1.1**:
+3. **Parametri v1.2**:
    - `Layer rilievo`: layer componenti
    - `Tipo di materiale`: filtro opzionale
    - `Includi non classificati`: include elementi con tipo=NULL
@@ -342,7 +410,7 @@ Poligoni dei singoli componenti murari
 
 ---
 
-### Output Versione 1.1 (5 file)
+### Output Versione 1.2 (5 file)
 
 1. **Min Oriented Bbox** - Rettangoli orientati minimi
 2. **Analisi Rilievo** - Layer rilievo arricchito
@@ -363,7 +431,7 @@ Poligoni dei singoli componenti murari
 
 ### Tabella Comparativa
 
-| Caratteristica | v1.0 (Con Campione) | v1.1 (Senza Campione) |
+| Caratteristica | v1.0 (Con Campione) | v1.2 (Senza Campione) |
 |----------------|---------------------|------------------------|
 | **Layer richiesti** | Rilievo + Campioni | Solo Rilievo |
 | **Campo `superficie`** | Obbligatorio | Opzionale |
@@ -372,20 +440,22 @@ Poligoni dei singoli componenti murari
 | **Output generati** | 6 | 5 |
 | **Statistiche** | Per campione | Aggregate globali |
 | **Campi modulo** (a secco/altri) | Solo superficie='intera' | **Tutti i componenti** |
+| **Strumenti a secco/altri** | Due script separati | **Unico script unificato** |
 | **Rapporto mattoni/malta** | Per campione | Non calcolato |
-| **Complessità codice** | ~1119 righe | ~757 righe |
+| **Statistiche avanzate** (pattern/reimpiego) | — | Disponibili (strumento dedicato) |
+| **Complessità codice** | ~1119 righe | ~868 righe |
 
 ---
 
 ### Quando NON sono compatibili
 
-❌ **Non puoi sostituire direttamente v1.0 con v1.1** se:
+❌ **Non puoi sostituire direttamente v1.0 con v1.2** se:
 - Hai bisogno di statistiche per singolo campione
 - Devi calcolare rapporti mattoni/malta per area
 - Usi i layer campioni poligonali con statistiche
 - La metodologia richiede campionamento su 1m²
 
-✅ **Puoi usare v1.1 invece di v1.0** se:
+✅ **Puoi usare v1.2 invece di v1.0** se:
 - Vuoi solo statistiche globali
 - Non hai definito aree campione
 - Hai un rilievo completo senza divisioni
@@ -436,7 +506,7 @@ OUTPUT (6 file)
 
 ---
 
-### Pipeline di Elaborazione v1.1 
+### Pipeline di Elaborazione v1.2 
 
 ```
 INPUT
@@ -494,11 +564,11 @@ OUTPUT (5 file)
 4. Ottieni 6 output con statistiche per campione
 ```
 
-### Esempio v1.1 - Analisi rapida senza campioni 
+### Esempio v1.2 - Analisi rapida senza campioni 
 
 ```
 1. Carica solo il layer "rilievo"
-2. Esegui "Mattoni senza campione" v1.1
+2. Esegui "Mattoni senza campione" v1.2
    - Layer rilievo: "rilievo"
    - Tipo materiale: "laterizio"
    - Step larghezza: 0.004 m
@@ -518,11 +588,16 @@ Gli script si basano sulla metodologia proposta da:
 
 La metodologia prevede:
 - Campionamento su aree standard (generalmente 1 m²) - **v1.0**
-- Analisi globali senza campionamento - **v1.1**
+- Analisi globali senza campionamento - **v1.2**
 - Distinzione tra elementi interi e parziali
 - Analisi dimensionale basata su Minimum Oriented Bounding Box
 - Calcolo di statistiche descrittive
 - Studio delle distribuzioni dimensionali
+
+Per le **statistiche avanzate** (pattern di posa, individuazione del reimpiego,
+analisi metrologica modulare) si rimanda alla documentazione metodologica
+dedicata in **`README_statistiche_avanzate.md`**, che riporta formule, esempi
+numerici e criteri di interpretazione di ciascun campo prodotto.
 
 ---
 
@@ -538,7 +613,7 @@ La metodologia prevede:
 
 ### Scelta della versione
 - ✓ Usa **v1.0** per analisi comparative tra campioni
-- ✓ Usa **v1.1** per analisi rapide e statistiche globali
+- ✓ Usa **v1.2** per analisi rapide e statistiche globali
 - ✓ Documenta sempre quale versione hai usato
 
 ### Configurazione parametri
@@ -557,7 +632,7 @@ La metodologia prevede:
 
 ## 📖 Citazione
 
-Fornaciari, L. (2024). MensioAnalysisTools: Suite di strumenti QGIS per l'analisi quantitativa delle murature storiche (Versione 1.1) [Software]. 
+Fornaciari, L. (2026). MensioAnalysisTools: Suite di strumenti QGIS per l'analisi quantitativa delle murature storiche (Versione 1.2) [Software]. 
 > GitHub. https://github.com/LoreForna/MensioAnalysisTools
 
 ---
