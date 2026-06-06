@@ -120,9 +120,6 @@ unico algoritmo, poiché condividevano logica di calcolo e output identici.
 - Range personalizzabili (default 1cm)
 - Supporto per tipologie multiple di materiali e filtri avanzati
 
-#### Versione 2.0 (Senza Campione) — Unificata
-**File**: `analisi_componenti_secco_altri_materiali_senza_campione_v2.0.py`  
-**Nome nel toolbox**: *Componenti a secco / altri materiali senza campione*
 
 **Caratteristiche**:
 - Un **unico strumento** per componenti a secco e altri materiali
