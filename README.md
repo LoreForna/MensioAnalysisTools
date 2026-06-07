@@ -75,7 +75,7 @@ componenti eterogenei o materiali paericolari.
 
 #### Senza Campione
 **File**:
-- `componenti_secco_altri_materiali_senza_campione_v2.0.py` 
+- `componenti_a_secco_altri_materiali_senza_campione_v2.0.py` 
 
 **Caratteristiche**:
 - Un **unico strumento** per componenti a secco e altri materiali
