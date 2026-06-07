@@ -19,7 +19,7 @@ Collezione di algoritmi di processing QGIS progettati per l'analisi dimensionale
 - **Campo superficie opzionale**: adattamento automatico se presente o assente
 - **Calcolo del poligono minimo orientato** (Minimum Oriented Bounding Box) per ogni elemento
 - **Statistiche descrittive**: media, deviazione standard, range, distribuzioni
-- **Statistiche avanzate**: individuazione di pattern e di possibili elementi di **reimpiego** tramite analisi multivariata e spaziale
+- **Statistiche avanzate**: individuazione di pattern e di elementi di **reimpiego** tramite analisi multivariata e spaziale
 - **Due modalità di analisi**: per campione o senza campione
 - **Output multipli** organizzati: layer geometrici, tabelle statistiche, distribuzioni per range
 - **Validazione robusta** dei dati in input con messaggi di errore dettagliati
