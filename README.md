@@ -112,9 +112,9 @@ componenti eterogenei o materiali paericolari.
 ## 🔬 Statistiche Avanzate: Pattern e Reimpiego
 
 Strumento di **analisi statistica avanzata** del paramento murario, finalizzato
-all'individuazione di **pattern di posa** e di elementi di probabile **reimpiego**. 
-Si concatena all'output degli strumenti MensioAnalysisTools (usa i campi `width_bbox`, 
-`height_bbox`, `area_componente`, `angle_bbox`, `fid`).
+all'individuazione di **pattern** e di elementi di probabile **reimpiego**. 
+Si concatena all'output **Analisi Rilievo** (usa i campi `width_bbox`, `height_bbox`, 
+`area_componente`, `angle_bbox`, `fid`).
 
 **File**: `statistiche_avanzate_pattern_paramento_reimpiego.py`  
 
