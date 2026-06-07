@@ -129,8 +129,8 @@ Richiede `numpy`, `scipy`, `scikit-learn` (di norma già presenti nel Python di 
    ```
    processing/scripts/
    ```
-4. Copia gli script scaricati nella cartella
-5. Riavvia QGIS o ricarica gli script dal Processing Toolbox
+4. Copia gli scripts scaricati nella cartella
+5. Riavvia QGIS o ricarica gli scripts dal Processing Toolbox
 
 ### Metodo 2: Da Processing Toolbox
 
@@ -389,7 +389,7 @@ OUTPUT (5 file)
 
 ## 💡 Esempio
 
-**Nota**: I dati di esempio per testare gli script si trovano nella cartella **Data/** del repository:
+**Nota**: I dati di esempio per testare gli scripts si trovano nella cartella **Data/** del repository:
 - `TEST_Analisi_campioni.gpkg` - GeoPackage con layer di test (mattoni) già configurati
 
 ### Esempio - Analisi muratura con campione
@@ -423,7 +423,7 @@ OUTPUT (5 file)
 
 ## 📚 Riferimenti Metodologici
 
-Gli script si basano sulla metodologia proposta da:
+Gli scrips si basano sulla metodologia proposta da:
 
 **Medri, M.** et al. - *"Metodi di analisi quantitativa delle murature romane in opera laterizia"*
 [PDF](https://pdfs.semanticscholar.org/373e/c1a3bf317c3216612f4c63d9802da5d67ce0.pdf)
