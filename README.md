@@ -26,31 +26,6 @@ Collezione di algoritmi di processing QGIS progettati per l'analisi dimensionale
 
 ---
 
-## 🔄 Versioni Disponibili
-
-La suite è disponibile in due versioni principali:
-
-### Con Area Campione
-**Modalità**: Analisi per campione  
-**Requisiti**: Layer rilievo + Layer campioni  
-**Ideale per**: Analisi comparative tra diverse aree campionate
-
-**File**:
-- `analisi_quantitativa_mattoni_v2_0.py`
-- `analisi_quantitativa_componenti_a_secco_v2_0.py`
-- `analisi_quantitativa_altri_componenti_v2_0.py`
-
-### Senza Area Campione
-**Modalità**: Analisi aggregate globali  
-**Requisiti**: Solo layer rilievo  
-**Ideale per**: Analisi rapide per murature non campionate
-
-**File**:
-- `analisi_quantitativa_mattoni_senza_campione_v2_0.py`
-- `analisi_componenti_secco_altri_materiali_senza_campione_v2.0.py`
-
----
-
 ## 📋 Suite di Strumenti
 
 ### 1. Analisi Quantitativa Mattoni
@@ -58,7 +33,7 @@ La suite è disponibile in due versioni principali:
 Analisi specializzata per murature in laterizi di età romana.
 
 #### Con Campione
-**File**: `analisi_quantitativa_mattoni_v2_0.py`
+**File**: `mattoni_v2_0.py`
 
 **Caratteristiche**:
 - Ottimizzato per opus latericium
@@ -68,7 +43,7 @@ Analisi specializzata per murature in laterizi di età romana.
 - Statistiche per ogni area campionata
 
 #### Senza Campione
-**File**: `analisi_quantitativa_mattoni_senza_campione_v2_0.py`
+**File**: `mattoni_senza_campione_v2_0.py`
 
 **Caratteristiche**:
 - Nessun layer campioni richiesto
@@ -76,7 +51,6 @@ Analisi specializzata per murature in laterizi di età romana.
 - Campo `superficie` opzionale
 - Output semplificati
 - Tabella unica con statistiche: Componenti interi, Componenti parziali, Totale, Larghezza, Altezza, Area
-
 
 ---
 
@@ -87,8 +61,8 @@ componenti eterogenei o materiali paericolari.
 
 #### Con Campione
 **File**:
-- `analisi_quantitativa_componenti_a_secco_v2_0.py`
-- `analisi_quantitativa_altri_componenti_v2_0.py`
+- `componenti_a_secco_v2_0.py`
+- `altri_componenti_v2_0.py`
 
 **Caratteristiche**:
 - Calcoli metrologici con modulo configurabile (default: piede romano 0.296m)
@@ -98,14 +72,13 @@ componenti eterogenei o materiali paericolari.
 - Supporto per tipologie multiple di materiali e filtri avanzati
 
 #### Senza Campione
-**File**: `analisi_componenti_secco_altri_materiali_senza_campione_v2.0.py` 
+**File**: `componenti_secco_altri_materiali_senza_campione_v2.0.py` 
 
 **Caratteristiche**:
 - Un **unico strumento** per componenti a secco e altri materiali
 - Campi modulo per **TUTTI i componenti** (non solo per superficie='intera')
 - Campo `superficie` opzionale
 - Statistiche aggregate globali
-
 
 ---
 
@@ -114,7 +87,7 @@ componenti eterogenei o materiali paericolari.
 Strumento di **analisi statistica avanzata** dei componenti già quantificati finalizzato all'individuazione di **pattern** e di possibili elementi di **reimpiego**. Si 
 concatena all'output `analisi_rilievo` (usa i campi `fid`, `area_componente`, `width_bbox`, `height_bbox`, `angle_bbox`).
 
-**File**: `statistiche_avanzate_pattern_paramento_reimpiego.py`  
+**File**: `statistiche_avanzate_pattern_reimpiego.py`  
 
 ### Due modalità d'uso
 
@@ -420,7 +393,7 @@ OUTPUT (5 file)
 ```
 1. Carica il geopackage "TEST_Analisi_campioni.gpkg"
 2. Usa layer "campioni" e "rilievo"
-3. Esegui "Analisi Quantitativa Mattoni" v2.0
+3. Esegui script "Mattoni"
    - Layer rilievo: "rilievo"
    - Layer campioni: "campioni"
    - Tipo materiale: "laterizio"
@@ -433,7 +406,7 @@ OUTPUT (5 file)
 
 ```
 1. Carica solo il layer "rilievo"
-2. Esegui "Mattoni senza campione" v2.0
+2. Esegui script "Mattoni senza campione"
    - Layer rilievo: "rilievo"
    - Tipo materiale: "laterizio"
    - Step larghezza: 0.004 m
@@ -484,6 +457,6 @@ Questo progetto è rilasciato sotto licenza **GNU GPLv3**.
 
 ---
 
-Script e documentazione aggiornati con Claude.ai 
+Scripts e documentazione aggiornati con Claude.ai 
 
 ---
