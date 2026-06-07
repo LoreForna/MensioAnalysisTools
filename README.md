@@ -172,7 +172,7 @@ Richiede `numpy`, `scipy`, `scikit-learn` (di norma già presenti nel Python di 
 
 ---
 
-
+## 🛠️ Installazione suite
 
 ### Metodo 1: Copia diretta (consigliato)
 
@@ -197,7 +197,7 @@ Richiede `numpy`, `scipy`, `scikit-learn` (di norma già presenti nel Python di 
 
 ### Installazione Plugin DataPlotly
 
-Necessario per la visualizzazione dei grafici (solo v2.0):
+Necessario per la visualizzazione dei grafici nel layout di stampa:
 
 1. In QGIS: `Plugins` → `Manage and Install Plugins`
 2. Cerca "DataPlotly"
