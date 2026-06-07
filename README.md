@@ -17,7 +17,7 @@ Collezione di algoritmi di processing QGIS progettati per l'analisi dimensionale
 - [Versioni Disponibili](#-versioni-disponibili)
 - [Suite di Strumenti](#-suite-di-strumenti)
 - [Statistiche Avanzate: Pattern e Reimpiego](#-statistiche-avanzate-pattern-e-reimpiego)
-- [Installazione](#-installazione)
+- [Installazione](#-installazione-suite)
 - [Requisiti](#-requisiti)
 - [Struttura Dati](#-struttura-dati)
 - [Utilizzo](#-utilizzo)
