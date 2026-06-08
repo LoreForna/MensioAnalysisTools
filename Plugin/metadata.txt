@@ -1,0 +1,16 @@
+[general]
+name=MensioAnalysisTools (MAT)
+qgisMinimumVersion=3.16
+description=Suite di strumenti per l'analisi quantitativa delle murature storiche: analisi dimensionali, statistiche avanzate di pattern e reimpiego, analisi dei corsi.
+about=Collezione di algoritmi di Processing per l'analisi dimensionale, statistica e metrologica di componenti murari in contesti archeologici e architettonici. Comprende analisi quantitative (per campione e senza campione), statistiche avanzate per l'individuazione di pattern e reimpiego, e riconoscimento dei corsi del paramento con rilevamento delle discontinuita' costruttive.
+version=2.0
+author=Lorenzo Fornaciari
+tracker=https://github.com/LoreForna/MensioAnalysisTools/issues
+repository=https://github.com/LoreForna/MensioAnalysisTools
+homepage=https://github.com/LoreForna/MensioAnalysisTools
+category=Analysis
+icon=icon.png
+experimental=False
+deprecated=False
+hasProcessingProvider=yes
+tags=archaeology,masonry,processing,architecture,quantitative analysis,muratura,archeologia

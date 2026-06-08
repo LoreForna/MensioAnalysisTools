@@ -1,4 +1,4 @@
-# Mensio Analysis Tools (MAT)
+# Mensio Analysis Tools
 
 [![QGIS](https://img.shields.io/badge/QGIS-%3E%3D3.16-green)](https://qgis.org)
 [![Python](https://img.shields.io/badge/Python-%3E%3D3.8-blue)](https://www.python.org/)
@@ -29,6 +29,15 @@ Collezione di algoritmi di processing QGIS progettati per l'analisi dimensionale
 
 ## 📋 Suite di Strumenti
 
+Nel Processing Toolbox gli strumenti sono raccolti sotto il provider **MensioAnalysisTools (MAT)**, suddiviso in tre gruppi:
+
+```
+MensioAnalysisTools (MAT)
+├── Analisi quantitative   (mattoni, componenti a secco, altri materiali — con e senza campione)
+├── Statistiche avanzate   (pattern e reimpiego)
+└── Analisi dei corsi      (riconoscimento dei filari, giunti, discontinuità)
+```
+
 ### 1. Analisi Quantitativa Mattoni
 
 Analisi specializzata per murature in laterizi di età romana.
@@ -40,7 +49,7 @@ Analisi specializzata per murature in laterizi di età romana.
 **Caratteristiche**:
 - Ottimizzato per opus latericium
 - Intervalli di distribuzione configurabili (default 4mm per larghezza e 2mm per altezza)
-- Calcolo del rapporto di suoerficie mattoni/malta per campione
+- Calcolo del rapporto di superficie mattoni/malta per campione
 - Stima del numero di mattoni interi per campione
 - Statistiche per ogni area campionata
 
@@ -60,7 +69,7 @@ Analisi specializzata per murature in laterizi di età romana.
 ### 2. Analisi Quantitativa Componenti a Secco / Altri Materiali
 
 Analisi per componenti lapidei assemblati senza legante (blocchi, conci) e per
-componenti eterogenei o materiali paericolari.
+componenti eterogenei o materiali particolari.
 
 #### Con Campione
 **File**:
@@ -76,7 +85,7 @@ componenti eterogenei o materiali paericolari.
 
 #### Senza Campione
 **File**:
-- `componenti_a_secco_altri_materiali_senza_campione_v2.0.py` 
+- `componenti_a_secco_altri_materiali_senza_campione_v2_0.py` 
 
 **Caratteristiche**:
 - Un **unico strumento** per componenti a secco e altri materiali
@@ -157,26 +166,32 @@ python -m pip install ruptures
 
 ## 🛠️ Installazione
 
-### Metodo 1: Copia diretta (consigliato)
+MensioAnalysisTools è un **plugin QGIS** con un proprio provider di Processing. Tutti gli strumenti compaiono nel Processing Toolbox sotto il nodo **MensioAnalysisTools (MAT)**, organizzati in tre gruppi: *Analisi quantitative*, *Statistiche avanzate*, *Analisi dei corsi*.
 
-1. Scarica i file `.py` dalla repository
+### Metodo 1: Installazione da ZIP (consigliato)
+
+1. Scarica il pacchetto `MensioAnalysisTools.zip` dalla repository
 2. Apri QGIS e vai in:
    ```
-   Settings → User Profiles → Open Active Profile Folder
+   Plugin → Gestisci e installa plugin → Installa da ZIP
    ```
-3. Naviga nella cartella:
-   ```
-   processing/scripts/
-   ```
-4. Copia gli script scaricati nella cartella
-5. Riavvia QGIS o ricarica gli script dal Processing Toolbox
+3. Seleziona il file `MensioAnalysisTools.zip` e clicca "Installa plugin"
+4. Verifica che il plugin sia attivo nella scheda "Installati"
 
-### Metodo 2: Da Processing Toolbox
+### Metodo 2: Copia manuale della cartella
 
-1. Apri il **Processing Toolbox** in QGIS
-2. Clicca sull'icona Python in alto → "Add Script to Toolbox..."
-3. Seleziona il file `.py` desiderato
-4. Lo script apparirà nel gruppo "Analisi quantitative"
+1. Scompatta la cartella `MensioAnalysisTools/` dall'archivio
+2. Apri QGIS e vai in:
+   ```
+   Impostazioni → Profili utente → Apri cartella profilo attivo
+   ```
+3. Copia la cartella `MensioAnalysisTools/` dentro:
+   ```
+   python/plugins/
+   ```
+4. Riavvia QGIS e attiva il plugin da *Plugin → Gestisci e installa plugin → Installati*
+
+Dopo l'attivazione, apri il **Processing Toolbox**: gli strumenti si trovano sotto **MensioAnalysisTools (MAT)**.
 
 ---
 
@@ -279,8 +294,8 @@ Poligoni dei singoli componenti murari
 
 2. **Esecuzione analisi**
    - Apri Processing Toolbox
-   - Cerca "Analisi quantitative"
-   - Seleziona lo strumento v2.0 appropriato
+   - Apri il provider **MensioAnalysisTools (MAT) → Analisi quantitative**
+   - Seleziona lo strumento appropriato (con campione)
    - Configura parametri
 
 3. **Parametri**:
@@ -302,7 +317,7 @@ Poligoni dei singoli componenti murari
 
 2. **Esecuzione analisi**
    - Apri Processing Toolbox
-   - Cerca "Analisi quantitative"
+   - Apri il provider **MensioAnalysisTools (MAT) → Analisi quantitative**
    - Seleziona lo strumento "senza campione" appropriato
    - Configura parametri
 
@@ -323,7 +338,7 @@ Poligoni dei singoli componenti murari
 
 2. **Esecuzione analisi**
    - Apri Processing Toolbox
-   - Cerca "Analisi quantitative"
+   - Apri il provider **MensioAnalysisTools (MAT) → Analisi dei corsi**
    - Seleziona "Analisi dei corsi del paramento"
 
 3. **Parametri**:
@@ -471,7 +486,7 @@ OUTPUT (5 file)
 ```
 1. Carica il geopackage "TEST_Analisi_campioni.gpkg"
 2. Usa layer "campioni" e "rilievo"
-3. Esegui script "Mattoni"
+3. Esegui lo strumento "Mattoni" (MAT → Analisi quantitative)
    - Layer rilievo: "rilievo"
    - Layer campioni: "campioni"
    - Tipo materiale: "laterizio"
@@ -484,7 +499,7 @@ OUTPUT (5 file)
 
 ```
 1. Carica solo il layer "rilievo"
-2. Esegui script "Mattoni senza campione"
+2. Esegui lo strumento "Mattoni senza campione" (MAT → Analisi quantitative)
    - Layer rilievo: "rilievo"
    - Tipo materiale: "laterizio"
    - Step larghezza: 0.004 m

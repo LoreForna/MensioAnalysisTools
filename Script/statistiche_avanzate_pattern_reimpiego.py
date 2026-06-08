@@ -138,7 +138,7 @@ class MasonryPatternAnalysis(QgsProcessingAlgorithm):
         return 'statistiche_avanzate_pattern_paramento_reimpiego'
 
     def displayName(self):
-        return 'Statistiche avanzate pattern paramento e reimpiego'
+        return 'Statistiche avanzate pattern e reimpiego'
 
     def group(self):
         return 'Analisi quantitative'
